@@ -12,10 +12,13 @@ export class HttpClient {
 
   private async getHeader() {
     const session = await getServerSession(authOptions);
-    return {
+    const headers: { [key: string]: string} = {
       "Content-Type": "application/json",
-      "Authorization": session?.user.token ? `Bearer ${session?.user.token}` : "",
     }
+    if (session){
+      headers["Authorization"] = `Bearer ${session.user.token}`
+    }
+    return headers;
   }
 
   private async handleResponse(response: Response){
