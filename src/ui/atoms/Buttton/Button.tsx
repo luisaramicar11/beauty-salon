@@ -13,6 +13,8 @@ type ButtonProps = {
     textHoverColorIcon?: string;  
     textColor?: string; 
     bgColor?: string;
+    borderRadius?: number;
+    width?: number;
   };
   
   const Button: React.FC<ButtonProps> = ({
@@ -24,7 +26,8 @@ type ButtonProps = {
     textColorIcon,
     textHoverColorIcon,
     textColor,
-     bgColor
+     bgColor,
+     
   }) => {
     return (
       <StyledButton

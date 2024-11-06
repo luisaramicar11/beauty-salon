@@ -11,4 +11,10 @@ export interface PAuth {
    * @throws {Error} - Throws an error if the API call fails, handled by `handleApiErrors`.
    */
     login(req: ILoginRequest): Promise<ILoginResponse>
+
+
+
+
+
+    
 }
