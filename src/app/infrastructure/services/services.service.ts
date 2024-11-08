@@ -30,7 +30,7 @@ export class ServicesService {
         }
     }
 
-    async update(id: string, service: IServiceRequest){
+    async update(id: number, service: IServiceRequest){
         try {
             const updatedService = await this.httpClient.put<IServiceResponse, IServiceRequest>(`services/${id}`, service)
             return updatedService;
@@ -40,9 +40,10 @@ export class ServicesService {
         }
     }
 
-    async destroy(id: string){
+    async destroy(id: number){
         try {
-            const service = await this.httpClient.delete(`services/${id}`)
+            console.log("id del service.service.ts", id)
+            const service = await this.httpClient.delete(`services/${id}`);
             return service;
         } catch (error) {
             console.log(error)

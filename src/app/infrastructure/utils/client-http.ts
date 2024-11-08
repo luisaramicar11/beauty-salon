@@ -40,13 +40,14 @@ export class HttpClient {
   }
 
   async delete(url: string): Promise<void> {
+    console.log("URL del cliente DELETE:", url);  // Verifica que la URL sea correcta
     const headers = await this.getHeader();
     await fetch(`${this.baseUrl}/${url}`, {
         headers,
         method: "DELETE",
     });
-}
-
+  }
+  
   async post <T, B> (url: string, body: B): Promise<T>{
     const headers = await this.getHeader();
     const response = await fetch(`${this.baseUrl}/${url}`,{

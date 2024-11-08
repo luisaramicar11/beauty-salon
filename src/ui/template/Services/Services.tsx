@@ -8,6 +8,7 @@ import { IPageable  } from "../../../app/core/application/dto/services/service-p
 import { IAllServicesResponse} from "../../../app/core/application/dto/services/all-services-response.dto";
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import Section from '@/ui/molecules/Sections/Services';
 
 interface IServicesProps {
   data: IAllServicesResponse,
@@ -41,6 +42,7 @@ const ServicesTemplate = ({data, pagination}: IServicesProps) => {
   return (
     <TemplateContainer>
       <ContentWrapper>
+        <Section service={null}/>
         <CardsGrid data={data}/>
       </ContentWrapper>
       <PageNavigation
