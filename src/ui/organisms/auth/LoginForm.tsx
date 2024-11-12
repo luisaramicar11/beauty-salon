@@ -4,12 +4,16 @@ import {
   FieldError,
   ILoginRequest,
 } from "@/app/core/application/dto";
+import Button from "@/ui/atoms/Buttton/Button";
 import { FormField } from "@/ui/molecules";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import { useTheme } from 'styled-components';
+import Title from "@/ui/atoms/Text/Title/Title";
+import { Form } from "./LoginFormStyles";
 
 const loginSchema = yup.object().shape({
   userName: yup
@@ -33,7 +37,7 @@ export const LoginForm = () => {
     reValidateMode: "onChange",
     resolver: yupResolver(loginSchema),
   });
-
+  const theme = useTheme();
   const router = useRouter()
   const handleLogin = async (data: ILoginRequest) => {
     console.log(data);
@@ -79,11 +83,11 @@ export const LoginForm = () => {
   };
 
   return (
-    <form
+    <Form
       className="w-full max-w-sm mx-auto p-4 space-y-4"
       onSubmit={handleSubmit(handleLogin)}
     >
-      <h2 className="text-2xl font-semibold  text-center">Iniciar Sesión</h2>
+      <Title size="large">Iniciar Sesión</Title>
 
       <FormField<ILoginRequest>
         control={control}
@@ -102,12 +106,14 @@ export const LoginForm = () => {
         error={errors.password}
         placeholder="Ingresa tu contraseña"
       />
-      <button
+      <Button
         type="submit"
-        className="w-full py-2 px-4 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600"
+        bgColor={theme.colors.buttonPink}
+        textColor={theme.colors.textWhite}
+        width={200}
       >
         Iniciar Sesión
-      </button>
-    </form>
+      </Button>
+    </Form>
   );
 };

@@ -1,49 +1,52 @@
 "use client";
-import { ErrorResponse, FieldError, IServiceRequest } from "@/app/core/application/dto";
-import { EndpointService } from "@/app/core/application/model/services.enum";
+import { ErrorResponse, FieldError } from "@/app/core/application/dto";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { FormContainer } from "./FormStyles";
 import Title from "@/ui/atoms/Text/Title/Title";
 import { FormField } from "@/ui/molecules";
-import { IContent } from "@/app/core/application/dto";
 import { useEffect } from "react";
 import Button from "@/ui/atoms/Buttton/Button";
 import { useTheme } from 'styled-components';
 import { useRouter } from "next/navigation";
-interface IServicesFormProps {
+import { IClientRequest, IContent } from "@/app/core/application/dto/clients";
+import { EndpointClients } from "@/app/core/application/model/clients.enum";
+
+interface IClientsFormProps {
     initialData?: IContent | null;
     onClose: () => void;
 }
 
-const initialServiceData = {
-    name: "",
-    description: "",
-    price: 0,
+const initialClientsData = {
+    firstName: "",
+    lastName:  "",
+    email:     "",
+    phone:     ""
 };
 
-const serviceSchema = yup.object().shape({
-    name: yup.string().required("El nombre es obligatorio"),
-    description: yup.string().required("La descripción es obligatoria"),
-    price: yup
-        .number()
-        .required("El precio es obligatorio")
-        .min(0, "El precio no puede ser negativo"),
+const clientsSchema = yup.object().shape({
+    firstName: yup.string().required("El nombre es obligatorio"),
+    lastName: yup.string().required("El apellido es obligatorio"),
+    email: yup.string().email("El correo es inválido").required("El correo es obligatorio"),
+    phone: yup
+        .string()
+        .required("El teléfono es obligatorio")
+        .min(10, "El teléfono debe tener como mínimo 10 caracteres"),
 });
 
-export const ServiceForm = ({ initialData, onClose }: IServicesFormProps) => {
+export const ClientForm = ({ initialData, onClose }: IClientsFormProps) => {
     const {
         control,
         handleSubmit,
         setError,
         setValue,
         formState: { errors },
-    } = useForm<IServiceRequest>({
+    } = useForm<IClientRequest>({
         mode: "onChange",
         reValidateMode: "onChange",
-        resolver: yupResolver(serviceSchema),
-        defaultValues: initialServiceData,
+        resolver: yupResolver(clientsSchema),
+        defaultValues: initialClientsData,
     });
     
     const theme = useTheme();
@@ -51,16 +54,17 @@ export const ServiceForm = ({ initialData, onClose }: IServicesFormProps) => {
     // Rellenar el formulario con los valores iniciales (si existen)
     useEffect(() => {
         if (initialData) {
-            setValue("name", initialData.name);
-            setValue("description", initialData.description);
-            setValue("price", initialData.price);
+            setValue("firstName", initialData.firstName);
+            setValue("lastName", initialData.lastName);
+            setValue("email", initialData.email);
+            setValue("phone", initialData.phone);
         }
     }, [initialData, setValue]);
 
     // Función para crear un servicio
-    const handleCreateService = async (data: IServiceRequest) => {
+    const handleCreateClient = async (data: IClientRequest) => {
         try {
-            const res = await fetch(EndpointService.CREATE_SERVICE, {
+            const res = await fetch(EndpointClients.CREATE_CLIENT, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -68,26 +72,26 @@ export const ServiceForm = ({ initialData, onClose }: IServicesFormProps) => {
                 body: JSON.stringify(data),
             });
             if (!res.ok) {
-                throw new Error("Error creando servicio");
+                throw new Error("Error creando cliente");
             }
-            const createdService = await res.json();
+            const createdClient= await res.json();
             onClose();
-            console.log("Servicio creado", createdService);
+            console.log("Cliente creado", createdClient);
         } catch (error) {
-            console.error("Error creando servicio", error);
+            console.error("Error creando cliente", error);
             handleError(error);
         }
     };
 
     // Función para actualizar un servicio
-    const handleUpdateService = async (data: IServiceRequest) => {
+    const handleUpdateClient = async (data: IClientRequest) => {
         const id = (initialData?.id)?.toString();  
          if (!id) {
-             throw new Error("Servicio no encontrado o sin ID");
+             throw new Error("Cliente no encontrado o sin ID");
          }
 
         try {
-            const res = await fetch(EndpointService.UPDATE_SERVICE.replace(":id", id), {
+            const res = await fetch(EndpointClients.UPDATE_CLIENT.replace(":id", id), {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -95,14 +99,14 @@ export const ServiceForm = ({ initialData, onClose }: IServicesFormProps) => {
                 body: JSON.stringify(data),
             });
             if (!res.ok) {
-                throw new Error("Error actualizando servicio");
+                throw new Error("Error actualizando cliente");
             }
-            const updatedService = await res.json();
+            const updatedClient = await res.json();
             router.refresh();
             onClose();
-            console.log("Servicio actualizado", updatedService);
+            console.log("Cliente actualizado", updatedClient);
         } catch (error) {
-            console.error("Error actualizando servicio", error);
+            console.error("Error actualizando cliente", error);
             handleError(error);
         }
     };
@@ -114,13 +118,13 @@ export const ServiceForm = ({ initialData, onClose }: IServicesFormProps) => {
             if (Array.isArray(errorData.errors) && "field" in errorData.errors[0]) {
                 errorData.errors.forEach((fieldError) => {
                     const { field, error } = fieldError as FieldError;
-                    setError(field as keyof IServiceRequest, {
+                    setError(field as keyof IClientRequest, {
                         message: error,
                     });
                 });
             } else {
                 if ("message" in errorData.errors[0]) {
-                    setError("name", {
+                    setError("firstName", {
                         message: errorData.errors[0].message,
                     });
                 }
@@ -129,40 +133,48 @@ export const ServiceForm = ({ initialData, onClose }: IServicesFormProps) => {
     };
 
     // Función para manejar el submit del formulario, decide si crear o actualizar
-    const onSubmit = async (data: IServiceRequest) => {
+    const onSubmit = async (data: IClientRequest) => {
         if (initialData) {
-            handleUpdateService(data);
+            handleUpdateClient(data);
         } else {
-            handleCreateService(data);
+            handleCreateClient(data);
         }
     };
 
     return (
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
-            <Title size="large">{initialData ? "Editar Servicio" : "Agregar Servicio"}</Title>
+            <Title size="large">{initialData ? "Editar Cliente" : "Agregar Cliente"}</Title>
 
-            <FormField<IServiceRequest>
+            <FormField<IClientRequest>
                 control={control}
                 type="text"
-                label="Nombre"
-                name="name"
-                error={errors.name}
+                label="FirstName"
+                name="firstName"
+                error={errors.firstName}
             />
 
-            <FormField<IServiceRequest>
+            <FormField<IClientRequest>
                 control={control}
                 type="text"
-                label="Descripción"
-                name="description"
-                error={errors.description}
+                label="LastName"
+                name="lastName"
+                error={errors.lastName}
             />
 
-            <FormField<IServiceRequest>
+            <FormField<IClientRequest>
                 control={control}
-                type="number"
-                label="Precio"
-                name="price"
-                error={errors.price}
+                type="email"
+                label="Email"
+                name="email"
+                error={errors.email}
+            />
+
+            <FormField<IClientRequest>
+                control={control}
+                type="text"
+                label="Phone"
+                name="phone"
+                error={errors.phone}
             />
 
             <Button
@@ -176,6 +188,3 @@ export const ServiceForm = ({ initialData, onClose }: IServicesFormProps) => {
         </FormContainer>
     );
 };
-
-
-

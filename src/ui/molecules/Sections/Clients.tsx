@@ -5,16 +5,15 @@ import { useTheme } from 'styled-components';
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { useState } from "react";
 import Button from '@/ui/atoms/Buttton/Button';
-
-import Modal from '@/ui/organisms/services/ModalService';
-import { IContent } from '@/app/core/application/dto';
-import Title from '@/ui/atoms/Text/Title/Title';
+import { Title } from '../Navbar/NavbarStyles';
+import { IContent } from '@/app/core/application/dto/clients';
+import Modal from '@/ui/organisms/clients/ModalClient';
 
 interface sectionProps {
-  service: IContent | null;
+  client: IContent | null;
 }
 
-const Section = ({service}: sectionProps) => {
+const Section = ({client}: sectionProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const openModal = () => setIsModalOpen(true);
@@ -22,7 +21,7 @@ const Section = ({service}: sectionProps) => {
   const theme = useTheme();
   return (
     <Container>
-      <Title size="large">Servicios</Title>
+      <Title>Clientes</Title>
       <Button
             onClick={openModal}
             textColor={theme.colors.textWhite}
@@ -31,9 +30,9 @@ const Section = ({service}: sectionProps) => {
             icon={<IoIosAddCircleOutline />}
             width={200}
           >
-            Agregar Servicio
+            Agregar Cliente
           </Button>
-          <Modal isOpen={isModalOpen} onClose={closeModal} service={service} />
+          <Modal isOpen={isModalOpen} onClose={closeModal} client={client} />
     </Container>
   )
 }

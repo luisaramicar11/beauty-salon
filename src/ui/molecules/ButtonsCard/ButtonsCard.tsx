@@ -19,7 +19,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({ onEdit, onDelete }) => {
         textColorIcon={theme.colors.buttonPink}
         textHoverColorIcon={theme.colors.textWhite}
         textColor={theme.colors.buttonPink}
-        bgColor={theme.colors.buttonPinkHover}
+        bgColor={theme.colors.buttonRedBgHover}
         icon={<LuPencil />}
       />
       <Button 

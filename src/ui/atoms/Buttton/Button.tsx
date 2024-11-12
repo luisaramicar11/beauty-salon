@@ -26,8 +26,8 @@ type ButtonProps = {
     textColorIcon,
     textHoverColorIcon,
     textColor,
-     bgColor,
-     
+    bgColor,
+    width,
   }) => {
     return (
       <StyledButton
@@ -37,6 +37,7 @@ type ButtonProps = {
         bgColor={bgColor}
         textColor={textColor}
         textHoverColorIcon={textHoverColorIcon}
+        width={width ? `${width}px` : undefined}
       >
         {children}
         {icon && <Icon textColorIcon={textColorIcon} textHoverColorIcon={textHoverColorIcon}>{icon} </Icon>} 

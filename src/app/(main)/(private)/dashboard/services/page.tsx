@@ -10,7 +10,7 @@ interface IProps{
 export const generateMetadata = async({searchParams}: IProps) =>{
   const page = searchParams.page ?? 1;
   return {
-      title: `Services Lis - Page ${page}`,
+      title: `Services List - Page ${page}`,
       description: `List of services on page ${page}`,
       meta: [
           { name: 'description', content: `List of services on page ${page}` },

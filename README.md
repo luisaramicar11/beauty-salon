@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Beauty Salon - Service and Client Management
 
-## Getting Started
+This project is a web application for managing services and clients in a beauty salon. It allows you to manage the services offered by the salon (create, update, delete, and view) and the clients' information (create, update, delete, and view). The application is built using **Next.js** with **TypeScript** and follows the **Onion Architecture** for a modular and scalable structure.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Service Management**: Add, update, delete, and list the beauty services offered by the salon.
+- **Client Management**: Register, update, delete, and view salon clients.
+- **REST API**: The backend is built on a RESTful API that performs all CRUD operations.
+- **Authentication**: Admin authentication system (if implemented).
+- **Onion Architecture**: Clear separation between presentation, domain, and persistence layers.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The project follows the Onion Architecture, which organizes it into layers to separate concerns:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Core (Application)**: Contains interfaces and business services that define the application's logic.
+- **Ports**: Defines interfaces for communication between different layers of the system.
+- **Infrastructure**: Implements the logic for interacting with external systems such as databases, APIs, etc.
+- **Atoms:** Basic components such as buttons, text inputs, and labels.
+- **Molecules:** Combinations of atoms that form more complex components, such as form fields.
+- **Organisms:** Groupings of molecules and atoms that form complete sections of the interface.
+- **Templates:** Design structures that define how organisms are organized on a page.
+- **Pages:** Complete views that combine templates and present the final content.
 
-## Learn More
+## Installation
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/luisaramicar11/beauty-salon
+   cd repository_name
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Install the dependencies:
+    ```bash
+   npm install
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Start the development server:
+   ```bash
+   npm run dev
 
-## Deploy on Vercel
+4. Open http://localhost:3000 in your browser
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

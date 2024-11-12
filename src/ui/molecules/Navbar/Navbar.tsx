@@ -6,8 +6,10 @@ import  {NavbarContainer, Title, LinksContainer} from "./NavbarStyles";
 import { RiLogoutCircleRFill } from "react-icons/ri";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation"
+import { useTheme } from 'styled-components'; 
 const Navbar = () => {
   const router = useRouter();  
+  const theme = useTheme();
   const handleLogout = async () => {
     console.log('Cerrando session');
     try {
@@ -21,13 +23,11 @@ const Navbar = () => {
 
   return (
     <NavbarContainer>
-      <Title>Bauty Salon</Title>
+      <Title>Beauty Salon</Title>
       <LinksContainer>
-        <NavLink href="/servicios">Servicios</NavLink>
-        <NavLink href="/clientes">Clientes</NavLink>
-        <NavLink href="/empleados">Empleados</NavLink>
-        <NavLink href="/citas">Citas</NavLink>
-        <LogoutButton onClick={handleLogout} icon={<RiLogoutCircleRFill />}/>
+        <NavLink href="/dashboard/services">Servicios</NavLink>
+        <NavLink href="/dashboard/clients">Clientes</NavLink>
+        <LogoutButton  onClick={handleLogout} textColorIcon={theme.colors.buttonPink} icon={<RiLogoutCircleRFill />}/>
       </LinksContainer>
     </NavbarContainer>
   );

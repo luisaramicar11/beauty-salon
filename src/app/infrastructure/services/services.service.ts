@@ -1,9 +1,10 @@
+import { PServices } from "@/app/core/application/ports/service.port";
 import { IAllServicesRequest, IAllServicesResponse} from "../../core/application/dto/services/all-services-response.dto";
 import { IServiceRequest } from "../../core/application/dto/services/service-request.dto";
 import { IServiceResponse } from "../../core/application/dto/services/service-response.dto";
 import { HttpClient } from "../utils/client-http";
 
-export class ServicesService {
+export class ServicesService implements PServices{
     private httpClient: HttpClient;
 
     constructor() {
